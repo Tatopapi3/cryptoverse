@@ -62,14 +62,14 @@ export default function LandingWeb() {
           fontSize: 11,
           fontWeight: 600,
           letterSpacing: '0.2em',
-          color: 'rgba(237,234,224,0.38)',
+          color: 'rgba(143,190,126,0.55)',
           margin: '0 0 20px',
           textTransform: 'uppercase',
         }}>
           What we offer
         </p>
 
-        {/* Main heading — italic serif, The Next Chapter style */}
+        {/* Main heading */}
         <h1 style={{
           fontFamily: "'Georgia', 'Times New Roman', serif",
           fontSize: 'clamp(44px, 7vw, 86px)',
@@ -83,13 +83,13 @@ export default function LandingWeb() {
           textShadow: '0 0 60px rgba(143,190,126,0.15)',
         }}>
           Your Crypto<br />
-          <span style={{ color: '#8fbe7e' }}>Journey</span> Starts Here.
+          Journey Starts Here.
         </h1>
 
         {/* Description */}
         <p style={{
           fontSize: 'clamp(14px, 1.6vw, 17px)',
-          color: 'rgba(237,234,224,0.5)',
+          color: 'rgba(143,190,126,0.65)',
           margin: '0 0 44px',
           maxWidth: 460,
           lineHeight: 1.75,
@@ -99,7 +99,7 @@ export default function LandingWeb() {
           education. Tailored to your pace, your goals, and your portfolio.
         </p>
 
-        {/* Feature pills — thin outlined, like The Next Chapter */}
+        {/* Feature pills */}
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -111,12 +111,12 @@ export default function LandingWeb() {
           {features.map(f => (
             <div key={f} style={{
               padding: '7px 16px',
-              border: '1px solid rgba(237,234,224,0.18)',
+              border: '1px solid rgba(143,190,126,0.25)',
               borderRadius: 100,
               fontSize: 12.5,
               fontWeight: 500,
-              color: 'rgba(237,234,224,0.65)',
-              background: 'rgba(255,255,255,0.03)',
+              color: 'rgba(143,190,126,0.75)',
+              background: 'rgba(143,190,126,0.04)',
               letterSpacing: '0.02em',
             }}>
               {f}
@@ -147,9 +147,9 @@ export default function LandingWeb() {
             onClick={() => router.push('/roadmap')}
             style={{
               padding: '13px 32px',
-              background: 'rgba(237,234,224,0.05)',
-              color: 'rgba(237,234,224,0.75)',
-              border: '1px solid rgba(237,234,224,0.18)',
+              background: 'rgba(143,190,126,0.05)',
+              color: 'rgba(143,190,126,0.75)',
+              border: '1px solid rgba(143,190,126,0.25)',
               borderRadius: 8,
               fontSize: 14,
               fontWeight: 500,
