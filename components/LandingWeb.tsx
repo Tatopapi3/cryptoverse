@@ -19,6 +19,7 @@ export default function LandingWeb() {
         position: 'relative',
         zIndex: 1,
         minHeight: '100vh',
+        backgroundColor: '#060e06',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
