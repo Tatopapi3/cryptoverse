@@ -127,7 +127,7 @@ export default function LandingWeb() {
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
           <button
-            onClick={() => router.push('/home')}
+            onClick={() => router.push('/(tabs)/learn')}
             style={{
               padding: '13px 32px',
               background: '#8fbe7e',
