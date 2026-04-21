@@ -75,7 +75,7 @@ export default function LandingWeb() {
           fontSize: 'clamp(44px, 7vw, 86px)',
           fontWeight: 400,
           fontStyle: 'italic',
-          color: '#edeae0',
+          color: '#8fbe7e',
           margin: '0 0 22px',
           lineHeight: 1.1,
           letterSpacing: '-0.01em',
