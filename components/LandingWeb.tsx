@@ -19,7 +19,7 @@ export default function LandingWeb() {
         position: 'relative',
         zIndex: 1,
         minHeight: '100vh',
-        backgroundColor: '#060e06',
+        backgroundColor: '#f4f0e8',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -34,8 +34,8 @@ export default function LandingWeb() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: 8,
-          background: 'rgba(143,190,126,0.08)',
-          border: '1px solid rgba(143,190,126,0.25)',
+          background: 'rgba(61,122,48,0.08)',
+          border: '1px solid rgba(61,122,48,0.25)',
           borderRadius: 100,
           padding: '8px 20px',
           marginBottom: 40,
@@ -44,13 +44,13 @@ export default function LandingWeb() {
             width: 7,
             height: 7,
             borderRadius: '50%',
-            background: '#8fbe7e',
-            boxShadow: '0 0 8px rgba(143,190,126,0.7)',
+            background: '#3d7a30',
+            boxShadow: '0 0 8px rgba(61,122,48,0.4)',
           }} />
           <span style={{
             fontSize: 12,
             fontWeight: 700,
-            color: '#8fbe7e',
+            color: '#3d7a30',
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
           }}>
@@ -63,7 +63,7 @@ export default function LandingWeb() {
           fontSize: 11,
           fontWeight: 600,
           letterSpacing: '0.2em',
-          color: 'rgba(143,190,126,0.55)',
+          color: 'rgba(61,122,48,0.55)',
           margin: '0 0 20px',
           textTransform: 'uppercase',
         }}>
@@ -76,12 +76,11 @@ export default function LandingWeb() {
           fontSize: 'clamp(44px, 7vw, 86px)',
           fontWeight: 400,
           fontStyle: 'italic',
-          color: '#8fbe7e',
+          color: '#3d7a30',
           margin: '0 0 22px',
           lineHeight: 1.1,
           letterSpacing: '-0.01em',
           maxWidth: 680,
-          textShadow: '0 0 60px rgba(143,190,126,0.15)',
         }}>
           Your Crypto<br />
           Journey Starts Here.
@@ -90,7 +89,7 @@ export default function LandingWeb() {
         {/* Description */}
         <p style={{
           fontSize: 'clamp(14px, 1.6vw, 17px)',
-          color: 'rgba(143,190,126,0.65)',
+          color: 'rgba(24,34,24,0.55)',
           margin: '0 0 44px',
           maxWidth: 460,
           lineHeight: 1.75,
@@ -112,12 +111,12 @@ export default function LandingWeb() {
           {features.map(f => (
             <div key={f} style={{
               padding: '7px 16px',
-              border: '1px solid rgba(143,190,126,0.25)',
+              border: '1px solid rgba(61,122,48,0.22)',
               borderRadius: 100,
               fontSize: 12.5,
               fontWeight: 500,
-              color: 'rgba(143,190,126,0.75)',
-              background: 'rgba(143,190,126,0.04)',
+              color: 'rgba(24,34,24,0.65)',
+              background: 'rgba(61,122,48,0.05)',
               letterSpacing: '0.02em',
             }}>
               {f}
@@ -131,15 +130,15 @@ export default function LandingWeb() {
             onClick={() => router.push('/(tabs)/learn')}
             style={{
               padding: '13px 32px',
-              background: '#8fbe7e',
-              color: '#060e06',
+              background: '#3d7a30',
+              color: '#ffffff',
               border: 'none',
               borderRadius: 8,
               fontSize: 14,
               fontWeight: 700,
               cursor: 'pointer',
               letterSpacing: '0.03em',
-              boxShadow: '0 0 24px rgba(143,190,126,0.3)',
+              boxShadow: '0 4px 20px rgba(61,122,48,0.25)',
             }}
           >
             Get Started Free

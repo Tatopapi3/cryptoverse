@@ -10,7 +10,7 @@ export default function Root({ children }: PropsWithChildren) {
         <ScrollViewStyleReset />
         <style dangerouslySetInnerHTML={{
           __html: `
-            html, body { margin: 0; padding: 0; background: #060e06 !important; }
+            html, body { margin: 0; padding: 0; background: #f4f0e8 !important; }
             body > div { background: transparent !important; }
           `
         }} />

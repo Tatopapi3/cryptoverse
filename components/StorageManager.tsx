@@ -26,15 +26,7 @@ export default function StorageManager() {
       } catch {}
     });
 
-    AsyncStorage.getItem(THEME_KEY).then((raw) => {
-      if (!raw) return;
-      try {
-        const d = JSON.parse(raw);
-        if (typeof d.isDark === 'boolean') {
-          useThemeStore.setState({ isDark: d.isDark });
-        }
-      } catch {}
-    });
+    // Theme is locked to light — no restore needed
   }, []);
 
   // ── Save whenever state changes ───────────────────────────────────────────
