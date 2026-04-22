@@ -11,6 +11,18 @@ import { CURRICULUM, MONTH_NAMES, DAY_LABELS } from '../../constants/curriculum'
 import { EVENTS_BY_DATE, EVENT_TYPE_COLORS, EVENTS, type CryptoEvent } from '../../constants/events';
 import { CONCEPTS } from '../../constants/blockchain-concepts';
 
+const FOUNDATION_IDS = [
+  'blockchain-basics',
+  'distributed-ledger',
+  'cryptographic-hash',
+  'public-key-crypto',
+  'proof-of-work',
+  'proof-of-stake',
+  'smart-contracts',
+  'consensus-overview',
+  'digital-signatures',
+];
+
 const H_PAD = 8;
 const EVENT_TYPE_LABELS: Record<string, string> = {
   conference: 'Conference', upgrade: 'Upgrade',
@@ -267,6 +279,21 @@ export default function LearnScreen() {
     eventCoinTxt: { fontSize: 9, fontWeight: '700' },
     noEventsTxt: { fontSize: 12, color: colors.textDim, textAlign: 'center', paddingVertical: 16 },
 
+    // Foundations
+    foundationSection: { marginBottom: 20 },
+    foundationHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10 },
+    foundationEye: { fontSize: 10, fontWeight: '800', letterSpacing: 1.3 },
+    foundationPct: { fontSize: 10, fontWeight: '700' },
+    foundationScroll: { paddingLeft: 20 },
+    foundationCard: { width: 130, borderRadius: 14, borderWidth: 1, padding: 12, marginRight: 10 },
+    foundationEmoji: { fontSize: 22, marginBottom: 6 },
+    foundationTitle: { fontSize: 11, fontWeight: '800', letterSpacing: -0.2, lineHeight: 15, marginBottom: 6 },
+    foundationCat: { fontSize: 9, fontWeight: '700', letterSpacing: 0.5, textTransform: 'uppercase' as const },
+    foundationCheck: { position: 'absolute' as any, top: 8, right: 8, width: 16, height: 16, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+    foundationCheckTxt: { fontSize: 8, fontWeight: '900' },
+    foundationBar: { marginHorizontal: 20, marginTop: 8, height: 2, borderRadius: 1, overflow: 'hidden', backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)' },
+    foundationBarFill: { height: '100%' as any, borderRadius: 1 },
+
     // Path view
     pathHeader: { marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.bgCard, borderRadius: 18, borderWidth: 1, borderColor: colors.bgCardBorder, padding: 16 },
     pathHeaderTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 },
@@ -408,9 +435,57 @@ export default function LearnScreen() {
     return null; // rest day — don't show a card
   };
 
+  // ── Foundations strip ────────────────────────────────────────────────────────
+  const foundationConcepts = FOUNDATION_IDS.map(id => CONCEPTS[id]).filter(Boolean);
+  const foundationDone     = foundationConcepts.filter(c => learnedConcepts.has(c.id)).length;
+  const foundationPct      = Math.round((foundationDone / foundationConcepts.length) * 100);
+  const allFoundationDone  = foundationDone === foundationConcepts.length;
+
+  const foundationsSection = (
+    <View style={s.foundationSection}>
+      <View style={s.foundationHeader}>
+        <Text style={[s.foundationEye, { color: colors.cyan }]}>
+          {allFoundationDone ? '✓  FOUNDATIONS COMPLETE' : '🎓  START HERE — BLOCKCHAIN BASICS'}
+        </Text>
+        <Text style={[s.foundationPct, { color: allFoundationDone ? colors.green : colors.textDim }]}>
+          {foundationDone}/{foundationConcepts.length}
+        </Text>
+      </View>
+      <View style={s.foundationBar}>
+        <View style={[s.foundationBarFill, { width: `${foundationPct}%` as any, backgroundColor: allFoundationDone ? colors.green : colors.cyan }]} />
+      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[s.foundationScroll, { paddingTop: 10, paddingRight: 20, paddingBottom: 4 }]}>
+        {foundationConcepts.map(c => {
+          const cc   = CONCEPT_CAT_COLORS[c.category] ?? colors.cyan;
+          const done = learnedConcepts.has(c.id);
+          return (
+            <Pressable
+              key={c.id}
+              style={[s.foundationCard, {
+                backgroundColor: done ? `${colors.green}0a` : `${cc}08`,
+                borderColor:     done ? `${colors.green}30` : `${cc}25`,
+              }]}
+              onPress={() => router.push(`/lesson/${c.id}`)}
+            >
+              {done && (
+                <View style={[s.foundationCheck, { backgroundColor: `${colors.green}25` }]}>
+                  <Text style={[s.foundationCheckTxt, { color: colors.green }]}>✓</Text>
+                </View>
+              )}
+              <Text style={s.foundationEmoji}>{c.emoji}</Text>
+              <Text style={[s.foundationTitle, { color: done ? colors.green : colors.white }]} numberOfLines={2}>{c.title}</Text>
+              <Text style={[s.foundationCat, { color: done ? colors.green : cc }]}>{c.category}</Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+
   // ── Calendar grid ────────────────────────────────────────────────────────────
   const calendarContent = (
     <>
+      {foundationsSection}
       {renderTodayCard()}
 
       {/* Stats */}
