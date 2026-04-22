@@ -806,6 +806,7 @@ export default function LearnScreen() {
           <Text style={s.headerTitle}>{view === 'path' ? 'Learning Path' : `${MONTH_NAMES[viewMonth - 1]} ${viewYear}`}</Text>
         </View>
         <View style={s.headerRight}>
+          <Pressable style={s.themeBtn} onPress={toggle}><Text style={s.themeBtnText}>{isDark ? '☀️' : '🌙'}</Text></Pressable>
           <View style={s.levelPill}><View style={s.levelDot} /><Text style={s.levelLabel}>{levelName}</Text></View>
         </View>
       </View>

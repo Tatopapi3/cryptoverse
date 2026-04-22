@@ -26,7 +26,15 @@ export default function StorageManager() {
       } catch {}
     });
 
-    // Theme is locked to light — no restore needed
+    AsyncStorage.getItem(THEME_KEY).then((raw) => {
+      if (!raw) return;
+      try {
+        const d = JSON.parse(raw);
+        if (typeof d.isDark === 'boolean') {
+          useThemeStore.setState({ isDark: d.isDark });
+        }
+      } catch {}
+    });
   }, []);
 
   // ── Save whenever state changes ───────────────────────────────────────────
