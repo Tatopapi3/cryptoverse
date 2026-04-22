@@ -125,8 +125,8 @@ export default function LandingWeb() {
           ))}
         </div>
 
-        {/* CTAs */}
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {/* CTA */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={() => router.push('/(tabs)/learn')}
             style={{
@@ -143,22 +143,6 @@ export default function LandingWeb() {
             }}
           >
             Get Started Free
-          </button>
-          <button
-            onClick={() => router.push('/roadmap')}
-            style={{
-              padding: '13px 32px',
-              background: 'rgba(143,190,126,0.05)',
-              color: 'rgba(143,190,126,0.75)',
-              border: '1px solid rgba(143,190,126,0.25)',
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: 'pointer',
-              letterSpacing: '0.02em',
-            }}
-          >
-            View Roadmap
           </button>
         </div>
 
