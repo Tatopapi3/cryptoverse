@@ -112,7 +112,7 @@ export default function ExploreScreen() {
       </View>
 
       {/* Category chips */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.catScroll}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.catScroll} style={{ flexShrink: 0 }}>
         {ALL_CATEGORIES.map(cat => (
           <Pressable key={cat} style={[s.catChip, category === cat && s.catChipOn]} onPress={() => setCategory(cat)}>
             <Text style={[s.catChipTxt, category === cat && s.catChipTxtOn]}>{cat}</Text>
@@ -120,7 +120,7 @@ export default function ExploreScreen() {
         ))}
       </ScrollView>
 
-      <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.resultsInfo}>
           <Text style={s.resultsCount}>{filtered.length} coin{filtered.length !== 1 ? 's' : ''}{category !== 'All' ? ` in ${category}` : ''}</Text>
         </View>
