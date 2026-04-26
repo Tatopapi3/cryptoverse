@@ -59,6 +59,8 @@ export default function CoinDetail() {
     infoItem: { ...card, width: '47.5%', padding: 16 },
     infoLabel: { fontSize: 9, color: colors.textDim, marginBottom: 8, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: '700' },
     infoValue: { fontSize: 14, fontWeight: '700' },
+    quizBtn:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginTop: 20, borderRadius: 14, padding: 18, borderWidth: 1 },
+    quizBtnTxt:{ fontSize: 15, fontWeight: '800', letterSpacing: -0.2 },
   });
 
   return (
@@ -125,6 +127,18 @@ export default function CoinDetail() {
             </View>
           ))}
         </View>
+
+        <Pressable
+          style={[s.quizBtn, { backgroundColor: `${catColor}12`, borderColor: `${catColor}35` }]}
+          onPress={() => router.push(`/quiz?coinSymbol=${coin.symbol}`)}
+        >
+          <Text style={{ fontSize: 20 }}>📝</Text>
+          <View>
+            <Text style={[s.quizBtnTxt, { color: catColor }]}>Test Your Knowledge</Text>
+            <Text style={{ fontSize: 11, color: colors.textDim, marginTop: 1 }}>3 questions about {coin.name}</Text>
+          </View>
+          <Text style={{ color: catColor, fontSize: 18, fontWeight: '700', marginLeft: 'auto' }}>→</Text>
+        </Pressable>
       </ScrollView>
     </View>
   );

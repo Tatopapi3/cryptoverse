@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Platform, ActivityIndicator, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
 import { useProgressStore } from '../store/useProgressStore';
@@ -8,9 +8,10 @@ import { CONCEPTS } from '../constants/blockchain-concepts';
 import { CURRICULUM } from '../constants/curriculum';
 import { generateCoinQuestion, generateConceptQuestion, type QuizQuestion } from '../services/quiz';
 
-const QUIZ_SIZE   = 7;
-const COIN_COUNT  = 4;   // coin questions per quiz
-const CONCEPT_COUNT = 3; // concept questions per quiz
+const GENERAL_QUIZ_SIZE = 7;
+const LESSON_QUIZ_SIZE  = 3;
+const COIN_COUNT        = 4;
+const CONCEPT_COUNT     = 3;
 
 // ── Build a smart question pool from current month's curriculum ──────────────
 function buildPool(): { coins: typeof COINS; conceptIds: string[] } {
@@ -56,10 +57,21 @@ function buildItems(): PoolItem[] {
 
 export default function QuizScreen() {
   const router = useRouter();
+  const { coinSymbol } = useLocalSearchParams<{ coinSymbol?: string }>();
   const { colors, categoryColors, isDark } = useTheme();
   const { recordQuizResult, quizHistory, streak } = useProgressStore();
 
-  const items = useRef(buildItems()).current;
+  // Lesson quiz: focused on one coin; general quiz: mixed pool
+  const isLessonQuiz = !!coinSymbol;
+  const lessonCoin   = isLessonQuiz ? COINS.find(c => c.symbol === coinSymbol) : null;
+  const QUIZ_SIZE    = isLessonQuiz ? LESSON_QUIZ_SIZE : GENERAL_QUIZ_SIZE;
+
+  function buildLessonItems(): PoolItem[] {
+    if (!lessonCoin) return [];
+    return Array.from({ length: LESSON_QUIZ_SIZE }, () => ({ type: 'coin' as const, coin: lessonCoin }));
+  }
+
+  const items = useRef(isLessonQuiz ? buildLessonItems() : buildItems()).current;
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [question, setQuestion] = useState<QuizQuestion | null>(null);
@@ -296,7 +308,7 @@ export default function QuizScreen() {
           )}
 
           <Pressable style={s.doneBtn} onPress={() => router.back()}>
-            <Text style={s.doneBtnText}>Back to Home</Text>
+            <Text style={s.doneBtnText}>{isLessonQuiz ? `Back to ${coinSymbol}` : 'Back to Home'}</Text>
           </Pressable>
           <Pressable
             style={s.retryBtn}
@@ -322,7 +334,7 @@ export default function QuizScreen() {
           <Text style={s.backText}>←</Text>
         </Pressable>
         <View style={s.headerMid}>
-          <Text style={s.headerEye}>DAILY CHALLENGE</Text>
+          <Text style={s.headerEye}>{isLessonQuiz ? `${coinSymbol} LESSON QUIZ` : 'DAILY CHALLENGE'}</Text>
           <Text style={s.headerSub}>Question {questionIndex + 1} of {QUIZ_SIZE}</Text>
         </View>
         <View style={s.scorePill}>
