@@ -59,7 +59,7 @@ export default function CalendarScreen() {
   const { learnedCoins } = useProgressStore();
   const { width: screenW } = useWindowDimensions();
   const CELL_W = Math.floor((screenW - H_PAD * 2) / 7);
-  const CELL_H = Math.floor(CELL_W * 1.2);
+  const CELL_H = Math.floor(CELL_W * 1.5);
 
   const now        = new Date();
   const todayISO   = now.toISOString().slice(0, 10);
@@ -199,16 +199,12 @@ export default function CalendarScreen() {
     grid:          { paddingHorizontal: H_PAD },
     gridRow:       { flexDirection: 'row' },
     cell:          { width: CELL_W, height: CELL_H, padding: 2 },
-    cellInner:     { flex: 1, borderRadius: 10, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' as any, overflow: 'hidden' },
-    cellDayNum:    { position: 'absolute' as any, top: 4, left: 5, fontSize: 10, fontWeight: '600' },
-    cellSymbol:    { fontSize: 10, fontWeight: '800', letterSpacing: -0.2, marginTop: 5 },
-    cellEmoji:     { fontSize: 14, marginTop: 4 },
-    cellQuiz:      { fontSize: 8, fontWeight: '800', letterSpacing: 0.3, textTransform: 'uppercase' as const },
-    cellRest:      { fontSize: 10, color: colors.textDim, opacity: 0.4 },
-    cellDots:      { position: 'absolute' as any, bottom: 3, flexDirection: 'row', gap: 2 },
-    cellDot:       { width: 4, height: 4, borderRadius: 2 },
-    cellCheck:     { position: 'absolute' as any, top: 3, right: 3, width: 12, height: 12, borderRadius: 6, alignItems: 'center', justifyContent: 'center' },
-    cellCheckTxt:  { fontSize: 6, fontWeight: '900' },
+    cellInner:    { flex: 1, borderRadius: 10, borderWidth: 1, overflow: 'hidden', padding: 5 },
+    cellDayNum:   { fontSize: 11, fontWeight: '700', marginBottom: 4 },
+    cellItems:    { gap: 3 },
+    cellItem:     { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    cellItemDot:  { width: 7, height: 7, borderRadius: 4, flexShrink: 0 },
+    cellItemTxt:  { fontSize: 8, fontWeight: '700', flexShrink: 1 },
 
     eventsSection:    { marginTop: 20, paddingHorizontal: H_PAD },
     eventsSectionEye: { fontSize: 9, color: colors.textDim, letterSpacing: 1.4, fontWeight: '700', textTransform: 'uppercase' as const, marginBottom: 4 },
@@ -384,33 +380,38 @@ export default function CalendarScreen() {
               return (
                 <Pressable key={colIdx} style={s.cell} onPress={() => handleDayPress(day)}>
                   <View style={[s.cellInner, { backgroundColor: cellBg, borderColor: cellBorder }]}>
-                    <Text style={[s.cellDayNum, { color: dayNumColor, fontWeight: isToday ? '900' : '600' }]}>{day}</Text>
-
-                    {lessonSym && (
-                      <Text style={[s.cellSymbol, { color: isCompleted ? colors.green : lessonColor, opacity: isPast && !isCompleted ? 0.5 : 1 }]}>
-                        {lessonSym}
-                      </Text>
-                    )}
-
-                    {concept && !lessonSym && !isQuiz && (
-                      <Text style={[s.cellEmoji, { opacity: isPast ? 0.22 : 0.50 }]}>{concept.emoji}</Text>
-                    )}
-
-                    {isQuiz && <Text style={[s.cellQuiz, { color: colors.cyan }]}>Quiz</Text>}
-                    {isSunday && !isToday && <Text style={s.cellRest}>·</Text>}
-
-                    {isCompleted && (
-                      <View style={[s.cellCheck, { backgroundColor: `${colors.green}22` }]}>
-                        <Text style={[s.cellCheckTxt, { color: colors.green }]}>✓</Text>
-                      </View>
-                    )}
-                    {dayEvents.length > 0 && (
-                      <View style={s.cellDots}>
-                        {dayEvents.slice(0, 3).map((e, i) => (
-                          <View key={i} style={[s.cellDot, { backgroundColor: EVENT_TYPE_COLORS[e.type] ?? colors.tan }]} />
-                        ))}
-                      </View>
-                    )}
+                    <Text style={[s.cellDayNum, { color: dayNumColor, fontWeight: isToday ? '900' : '700' }]}>{day}</Text>
+                    <View style={s.cellItems}>
+                      {lessonSym && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: isCompleted ? colors.green : lessonColor, opacity: isPast && !isCompleted ? 0.4 : 1 }]} />
+                          <Text style={[s.cellItemTxt, { color: isCompleted ? colors.green : lessonColor, opacity: isPast && !isCompleted ? 0.5 : 1 }]} numberOfLines={1}>
+                            {lessonSym}{isCompleted ? ' ✓' : ''}
+                          </Text>
+                        </View>
+                      )}
+                      {isQuiz && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: colors.cyan }]} />
+                          <Text style={[s.cellItemTxt, { color: colors.cyan }]} numberOfLines={1}>Quiz</Text>
+                        </View>
+                      )}
+                      {concept && !lessonSym && !isQuiz && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)', opacity: isPast ? 0.35 : 1 }]} />
+                          <Text style={[s.cellItemTxt, { color: colors.textMid, opacity: isPast ? 0.4 : 0.75 }]} numberOfLines={1}>{concept.emoji} {concept.title}</Text>
+                        </View>
+                      )}
+                      {dayEvents.map((e, i) => {
+                        const ec = EVENT_TYPE_COLORS[e.type] ?? colors.tan;
+                        return (
+                          <View key={i} style={s.cellItem}>
+                            <View style={[s.cellItemDot, { backgroundColor: ec }]} />
+                            <Text style={[s.cellItemTxt, { color: ec }]} numberOfLines={1}>{e.title}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
                   </View>
                 </Pressable>
               );
