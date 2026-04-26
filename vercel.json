@@ -2,9 +2,5 @@
   "name": "cryptoverse",
   "buildCommand": "npx expo export -p web",
   "outputDirectory": "dist",
-  "framework": null,
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
-  ]
+  "framework": null
 }
