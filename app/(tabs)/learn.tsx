@@ -67,8 +67,9 @@ export default function LearnScreen() {
   const { colors, categoryColors, isDark, toggle } = useTheme();
   const { xp, streak, learnedCoins, learnedConcepts, completedQuizDates } = useProgressStore();
   const { width: screenW } = useWindowDimensions();
+  const isWeb  = Platform.OS === 'web';
   const CELL_W = Math.floor((screenW - H_PAD * 2) / 7);
-  const CELL_H = Math.floor(CELL_W * 1.35);
+  const CELL_H = isWeb ? Math.min(Math.floor(CELL_W * 0.65), 120) : Math.floor(CELL_W * 1.35);
 
   const now        = new Date();
   const todayISO   = now.toISOString().slice(0, 10);
@@ -251,12 +252,12 @@ export default function LearnScreen() {
     grid: { paddingHorizontal: H_PAD },
     gridRow: { flexDirection: 'row' },
     cell: { width: CELL_W, height: CELL_H, padding: 2 },
-    cellInner:   { flex: 1, borderRadius: 10, borderWidth: 1, overflow: 'hidden', padding: 6, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'stretch' },
-    cellDayNum:  { fontSize: 12, fontWeight: '800', marginBottom: 4 },
-    cellItems:   { gap: 4 },
-    cellItem:    { flexDirection: 'row', alignItems: 'center', gap: 5 },
-    cellItemDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
-    cellItemTxt: { fontSize: 10, fontWeight: '700', flexShrink: 1 },
+    cellInner:   { flex: 1, borderRadius: 10, borderWidth: 1, overflow: 'hidden', padding: isWeb ? 8 : 5, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'stretch' },
+    cellDayNum:  { fontSize: isWeb ? 11 : 11, fontWeight: '700', marginBottom: isWeb ? 5 : 3, opacity: 0.7 },
+    cellItems:   { gap: isWeb ? 4 : 3 },
+    cellItem:    { flexDirection: 'row', alignItems: 'center', gap: isWeb ? 5 : 4 },
+    cellItemDot: { width: isWeb ? 8 : 7, height: isWeb ? 8 : 7, borderRadius: 4, flexShrink: 0 },
+    cellItemTxt: { fontSize: isWeb ? 11 : 9, fontWeight: '700', flexShrink: 1, lineHeight: isWeb ? 14 : 11 },
 
     // Events
     eventsSection: { marginTop: 18, paddingHorizontal: H_PAD },
