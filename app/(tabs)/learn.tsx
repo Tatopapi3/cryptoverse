@@ -251,16 +251,12 @@ export default function LearnScreen() {
     grid: { paddingHorizontal: H_PAD },
     gridRow: { flexDirection: 'row' },
     cell: { width: CELL_W, height: CELL_H, padding: 2 },
-    cellInner: { flex: 1, borderRadius: 10, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' as any, overflow: 'hidden' },
-    cellDayNum: { position: 'absolute' as any, top: 3, left: 4, fontSize: 9, fontWeight: '700' },
-    cellSymbol: { fontSize: 9, fontWeight: '900', letterSpacing: -0.2, marginTop: 4 },
-    cellEmoji: { fontSize: 13, marginTop: 4 },
-    cellQuizTxt: { fontSize: 7, fontWeight: '900', letterSpacing: 0.3, textTransform: 'uppercase' as const, marginTop: 4 },
-    cellRest: { fontSize: 9, color: colors.textDim, opacity: 0.3 },
-    cellDots: { position: 'absolute' as any, bottom: 2, flexDirection: 'row', gap: 2 },
-    cellDot: { width: 3, height: 3, borderRadius: 2 },
-    cellCheck: { position: 'absolute' as any, top: 2, right: 2, width: 13, height: 13, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
-    cellCheckTxt: { fontSize: 7, fontWeight: '900' },
+    cellInner:   { flex: 1, borderRadius: 10, borderWidth: 1, overflow: 'hidden', padding: 6, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'stretch' },
+    cellDayNum:  { fontSize: 12, fontWeight: '800', marginBottom: 4 },
+    cellItems:   { gap: 4 },
+    cellItem:    { flexDirection: 'row', alignItems: 'center', gap: 5 },
+    cellItemDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
+    cellItemTxt: { fontSize: 10, fontWeight: '700', flexShrink: 1 },
 
     // Events
     eventsSection: { marginTop: 18, paddingHorizontal: H_PAD },
@@ -607,37 +603,38 @@ export default function LearnScreen() {
               return (
                 <Pressable key={colIdx} style={s.cell} onPress={() => handleDayPress(day)}>
                   <View style={[s.cellInner, { backgroundColor: cellBg, borderColor: cellBorder }]}>
-                    <Text style={[s.cellDayNum, { color: dayNumColor, fontWeight: isToday ? '900' : '700' }]}>{day}</Text>
-
-                    {lessonSym && (
-                      <Text style={[s.cellSymbol, { color: isDone ? colors.green : lessonColor, opacity: isPast && !isDone ? 0.5 : 1 }]}>
-                        {lessonSym}
-                      </Text>
-                    )}
-                    {concept && !lessonSym && !isQuiz && (
-                      <Text style={[s.cellEmoji, { opacity: isDone ? 1 : isPast ? 0.25 : 0.55 }]}>{concept.emoji}</Text>
-                    )}
-                    {isQuiz && (
-                      <Text style={[s.cellQuizTxt, { color: isDone ? colors.green : colors.cyan }]}>Quiz</Text>
-                    )}
-                    {isSunday && !lessonSym && !concept && !isQuiz && (
-                      <Text style={s.cellRest}>·</Text>
-                    )}
-
-                    {/* Checkmark */}
-                    {isDone && (
-                      <View style={[s.cellCheck, { backgroundColor: `${colors.green}25` }]}>
-                        <Text style={[s.cellCheckTxt, { color: colors.green }]}>✓</Text>
-                      </View>
-                    )}
-                    {/* Event dots */}
-                    {dayEvents.length > 0 && (
-                      <View style={s.cellDots}>
-                        {dayEvents.slice(0, 3).map((e, i) => (
-                          <View key={i} style={[s.cellDot, { backgroundColor: EVENT_TYPE_COLORS[e.type] ?? colors.tan }]} />
-                        ))}
-                      </View>
-                    )}
+                    <Text style={[s.cellDayNum, { color: dayNumColor }]}>{day}</Text>
+                    <View style={s.cellItems}>
+                      {lessonSym && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: isDone ? colors.green : lessonColor, opacity: isPast && !isDone ? 0.4 : 1 }]} />
+                          <Text style={[s.cellItemTxt, { color: isDone ? colors.green : lessonColor, opacity: isPast && !isDone ? 0.5 : 1 }]} numberOfLines={1}>
+                            {lessonSym}{isDone ? ' ✓' : ''}
+                          </Text>
+                        </View>
+                      )}
+                      {isQuiz && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: isDone ? colors.green : colors.cyan }]} />
+                          <Text style={[s.cellItemTxt, { color: isDone ? colors.green : colors.cyan }]} numberOfLines={1}>Quiz{isDone ? ' ✓' : ''}</Text>
+                        </View>
+                      )}
+                      {concept && !lessonSym && !isQuiz && (
+                        <View style={s.cellItem}>
+                          <View style={[s.cellItemDot, { backgroundColor: conceptColor, opacity: isPast && !isDone ? 0.35 : 1 }]} />
+                          <Text style={[s.cellItemTxt, { color: conceptColor, opacity: isPast && !isDone ? 0.5 : 1 }]} numberOfLines={1}>{concept.emoji} {concept.title}</Text>
+                        </View>
+                      )}
+                      {dayEvents.map((e, i) => {
+                        const ec = EVENT_TYPE_COLORS[e.type] ?? colors.tan;
+                        return (
+                          <View key={i} style={s.cellItem}>
+                            <View style={[s.cellItemDot, { backgroundColor: ec }]} />
+                            <Text style={[s.cellItemTxt, { color: ec }]} numberOfLines={1}>{e.title}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
                   </View>
                 </Pressable>
               );
